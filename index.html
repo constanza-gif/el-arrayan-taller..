@@ -1,64 +1,74 @@
 <!DOCTYPE html><html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>El Arrayán Taller</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #8B4513;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    nav {
-      background-color: #deb887;
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 10px 0;
-    }
-    nav a {
-      text-decoration: none;
-      color: #333;
-      font-weight: bold;
-    }
-    section {
-      padding: 20px;
-    }
-    .imagenes {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-    }
-    .imagenes img {
-      width: 200px;
-      height: auto;
-      border: 1px solid #ccc;
-    }
-    footer {
-      background-color: #8B4513;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
-  </style>
-</head>
-<body>  <header>
-    <h1>El Arrayán Taller</h1>
-    <img src="logo" alt="Logo de El Arrayán Taller" height="100">
-  </header>  <nav>
-    <a href="#muebles">Muebles</a>
-    <a href="#accesorios">Accesorios de Hogar</a>
-    <a href="#catalogo">Catálogo</a>
-  </nav>  <section id="muebles">
-    <h2>Muebles</h2>
-    <p>Descubre nuestros muebles hechos a mano con dedicación y calidad.</p>
-    <!-- Aquí puedes agregar imágenes específicas de muebles si las tienes -->
-  </section>  <section id="accesorios">
-    <h2>Accesorios
-  
+    :root {
+      --color-bg: #f4f1ec;
+      --color-primary: #3e3e3e;
+      --color-accent: #ffffff;
+      --font-main: 'Montserrat', sans-serif;
+    }* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-main);
+  background-color: var(--color-bg);
+  color: #222;
+  line-height: 1.6;
+}
+
+header {
+  background-color: var(--color-primary);
+  color: var(--color-accent);
+  padding: 3rem 1rem;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  width: 100px;
+  margin-bottom: 1rem;
+  animation: fadeInDown 1s ease-in-out;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+nav {
+  margin-top: 1rem;
+}
+
+nav a {
+  margin: 0 1rem;
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+section {
+  padding: 4rem 1rem;
+  text-align: center;
+}
+
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeUp
+    
+    
+    
