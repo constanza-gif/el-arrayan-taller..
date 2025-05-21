@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>el arrayan taller</title>
+  <button onclick="verCarrito()">Ver carrito (<span id="cantidad">0</span>)</button>
+<div id="carrito" style="display:none; margin-top:20px; background:white; padding:15px; border:1px solid #ccc;"></div>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: sans-serif; background-color: #f9f9f9; }
@@ -255,9 +257,69 @@ fetch(API_URL)
     });
   });
 </script>
+  <script>
+const SHEET_ID = 'PON_AQUI_EL_ID_DE_TU_HOJA';
+const SHEET_NAME = 'Productos Tienda';
+const API_URL = https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME};
 
-</body>
-</html>
+let carrito = [];
+
+fetch(API_URL)
+  .then(res => res.json())
+  .then(data => {
+    const contenedor = document.getElementById('productos');
+    data.forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'card';
+      div.innerHTML = `
+        <img src="${p.Imagen}" alt="${p.Nombre}">
+        <div class="info">
+          <div class="name">${p.Nombre}</div>
+          <div class="price">Precio: $${parseInt(p.Precio).toLocaleString("es-CL")}</div>
+          <div class="transfer">Transferencia: $${parseInt(p.Transferencia).toLocaleString("es-CL")}</div>
+          <div class="cuotas">6 cuotas de $${parseInt(p.Cuotas).toLocaleString("es-CL")}</div>
+          <div class="stock">Stock: ${p.Stock}</div>
+          <button onclick='agregarAlCarrito(${JSON.stringify(p)})'>Agregar al carrito</button>
+        </div>
+      `;
+      contenedor.appendChild(div);
+    });
+  });
+
+function agregarAlCarrito(producto) {
+  const existente = carrito.find(p => p.ID === producto.ID);
+  if (existente) {
+    existente.cantidad++;
+  } else {
+    carrito.push({...producto, cantidad: 1});
+  }
+  actualizarCantidad();
+}
+
+function actualizarCantidad() {
+  document.getElementById('cantidad').textContent = carrito.reduce((sum, p) => sum + p.cantidad, 0);
+}
+
+function verCarrito() {
+  const div = document.getElementById('carrito');
+  div.innerHTML = '';
+  let total = 0;
+  carrito.forEach(p => {
+    const subtotal = p.Precio * p.cantidad;
+    total += subtotal;
+    div.innerHTML += `
+      <p>${p.Nombre} x${p.cantidad} - $${subtotal.toLocaleString("es-CL")}</p>
+    `;
+  });
+  div.innerHTML += <hr><strong>Total: $${total.toLocaleString("es-CL")}</strong>;
+  div.style.display = 'block';
+}
+</script>
+  <a href="Ingresa al link para pagar https://mpago.la/2F6Wxpt" target="_blank">
+  <button>Pagar con MercadoPago</button>
+</a>
+
+
 
     
     
