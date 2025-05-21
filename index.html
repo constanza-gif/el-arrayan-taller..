@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Mi Tienda</title>
+  <title>el arrayan taller</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: sans-serif; background-color: #f9f9f9; }
@@ -123,17 +123,17 @@
   const products = [
     {
       id: 1,
-      nombre: "Mesa de Arrime Chapa y Hierro",
-      precio: 150000,
+      nombre: "lampara teca",
+      precio: 10000,
       original: 190000,
       transferencia: 127500,
       cuotas: 25000,
-      imagen: "https://via.placeholder.com/400x300"
+      imagen: "TALLER4.jpg"
     },
     {
       id: 2,
-      nombre: "Perchero VIVORATÁ",
-      precio: 28750,
+      nombre: "repisa nogal",
+      precio: 8000,
       original: null,
       transferencia: 24437,
       cuotas: 4791,
@@ -204,6 +204,60 @@
 
   cartIcon.addEventListener('click', openCart);
 </script>
+  <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi Tienda desde Google Sheets</title>
+  <style>
+    body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
+    .container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+    .card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+    }
+    .card img { width: 100%; height: 200px; object-fit: cover; }
+    .info { padding: 15px; }
+    .name { font-size: 18px; font-weight: bold; }
+    .price, .transfer, .cuotas, .stock { font-size: 14px; margin: 5px 0; }
+  </style>
+</head>
+<body>
+
+<h1>Productos en Stock</h1>
+<div class="container" id="productos"></div>
+
+<script>
+const SHEET_ID = 'https://docs.google.com/spreadsheets/d/1Ay4mu-3UsFBfTNSsuqGMGtfYd8ZC1jkj8NB7vbSPdyo/edit?usp=drivesdk';
+const SHEET_NAME = 'Productos Tienda';
+const API_URL = https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME};
+
+fetch(API_URL)
+  .then(res => res.json())
+  .then(data => {
+    const contenedor = document.getElementById('productos');
+    data.forEach(p => {
+      const div = document.createElement('div');
+      div.className = 'card';
+      div.innerHTML = `
+        <img src="${p.Imagen}" alt="${p.Nombre}">
+        <div class="info">
+          <div class="name">${p.Nombre}</div>
+          <div class="price">Precio: $${parseInt(p.Precio).toLocaleString("es-CL")}</div>
+          <div class="transfer">Transferencia: $${parseInt(p.Transferencia).toLocaleString("es-CL")}</div>
+          <div class="cuotas">6 cuotas de $${parseInt(p.Cuotas).toLocaleString("es-CL")}</div>
+          <div class="stock">Stock: ${p.Stock}</div>
+        </div>
+      `;
+      contenedor.appendChild(div);
+    });
+  });
+</script>
+
+</body>
+</html>
 
     
     
