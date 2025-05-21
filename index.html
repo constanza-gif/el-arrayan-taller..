@@ -2,165 +2,217 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>El Arrayán Taller</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mi Tienda</title>
   <style>
-    body {
-      font-family: sans-serif;
-      background-color: #f4f1ec;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: sans-serif; background-color: #f9f9f9; }
     header {
-      background-color: #3e3e3e;
-      color: white;
-      padding: 2rem;
-    }
-    img.logo {
-      width: 150px;
-      margin-bottom: 1rem;
-    }
-    section {
-      padding: 2rem;
-    }
-    .galeria {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      padding: 15px 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
-    .galeria img {
-      width: 300px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    .logo { font-size: 24px; font-weight: bold; }
+    .cart { font-size: 16px; }
+
+    .container { padding: 20px; display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+
+    .product {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
-    footer {
-      background-color: #3e3e3e;
+    .product img {
+      width: 100%;
+      object-fit: cover;
+      height: 200px;
+    }
+    .info {
+      padding: 15px;
+    }
+    .name { font-size: 18px; font-weight: bold; margin-bottom: 5px; }
+    .price { font-size: 16px; font-weight: bold; }
+    .original-price { text-decoration: line-through; font-size: 14px; color: gray; }
+    .transfer { color: goldenrod; font-size: 15px; margin: 5px 0; }
+    .cuotas { font-size: 14px; margin-bottom: 10px; }
+    .btn {
+      background: goldenrod;
       color: white;
-      padding: 1rem;
+      padding: 10px;
+      border: none;
+      font-weight: bold;
+      cursor: pointer;
+      width: 100%;
+      border-radius: 0 0 8px 8px;
     }
-    a {
-      color: #ffffff;
-      text-decoration: underline;
+
+    footer {
+      text-align: center;
+      padding: 10px;
+      background: #333;
+      color: white;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <img src="logo.jpg" alt="El Arrayán Taller Logo" class="logo" />
-    <h1>El Arrayán Taller</h1>
-    <p>Carpintería artesanal - Muebles a medida</p>
-  </header>
+<header>
+  <div class="logo">MI TIENDA</div>
+  <div class="cart">Carrito (0)</div>
+</header>
 
-  <section>
-    <h2>Bienvenidos</h2>
-    <p>Transformamos madera en ideas. Realizamos muebles personalizados, rótulos y más.</p>
-  </section>
+<main class="container" id="product-list">
+  <!-- Los productos se generan desde JavaScript -->
+</main>
 
-  <section>
-    <section>
-  <h2>Información de Interés</h2>
+<footer>
+  Al navegar por este sitio aceptás el uso de cookies para mejorar tu experiencia.
+</footer>
 
-  <details>
-    <summary><strong>¿Cómo trabajamos?</strong></summary>
-    <p>Cada mueble es fabricado a mano, con atención al detalle y adaptado a las necesidades de nuestros clientes.</p>
-  </details>
+<script>
+  const products = [
+    {
+      nombre: "Mesa de Arrime Chapa y Hierro",
+      precio: 150000,
+      original: 190000,
+      transferencia: 127500,
+      cuotas: 25000,
+      imagen: "https://via.placeholder.com/400x300"
+    },
+    {
+      nombre: "Perchero VIVORATÁ",
+      precio: 28750,
+      original: null,
+      transferencia: 24437,
+      cuotas: 4791,
+      imagen: "https://via.placeholder.com/400x300"
+    }
+  ];
 
-  <details>
-    <summary><strong>Materiales que usamos</strong></summary>
-    <p>Utilizamos maderas nobles como raulí, lenga y pino tratado, asegurando durabilidad y estética.</p>
-  </details>
+  const productList = document.getElementById('product-list');
 
-  <details>
-    <summary><strong>Tiempo de entrega</strong></summary>
-    <p>El tiempo depende del proyecto, pero suele variar entre 2 a 4 semanas.</p>
-  </details>
-</section>
+  products.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'product';
+    el.innerHTML = `
+      <img src="${p.imagen}" alt="${p.nombre}">
+      <div class="info">
+        <div class="name">${p.nombre}</div>
+        ${p.original ? <div class="original-price">$${p.original.toLocaleString("es-CL")}</div> : ""}
+        <div class="price">$${p.precio.toLocaleString("es-CL")}</div>
+        <div class="transfer">$${p.transferencia.toLocaleString("es-CL")} con Transferencia</div>
+        <div class="cuotas">6 cuotas sin interés de $${p.cuotas.toLocaleString("es-CL")}</div>
+      </div>
+      <button class="btn">Agregar al carrito</button>
+    `;
+    productList.appendChild(el);
+  });
+<script>
+  const products = [
+    {
+      id: 1,
+      nombre: "Mesa de Arrime Chapa y Hierro",
+      precio: 150000,
+      original: 190000,
+      transferencia: 127500,
+      cuotas: 25000,
+      imagen: "https://via.placeholder.com/400x300"
+    },
+    {
+      id: 2,
+      nombre: "Perchero VIVORATÁ",
+      precio: 28750,
+      original: null,
+      transferencia: 24437,
+      cuotas: 4791,
+      imagen: "https://via.placeholder.com/400x300"
+    }
+  ];
+
+  const productList = document.getElementById('product-list');
+  const cartIcon = document.querySelector('.cart');
+  const cartModal = document.getElementById('cart-modal');
+  const cartItems = document.getElementById('cart-items');
+  const cartTotal = document.getElementById('cart-total');
+
+  let cart = [];
+
+  // Render productos
+  products.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'product';
+    el.innerHTML = `
+      <img src="${p.imagen}" alt="${p.nombre}">
+      <div class="info">
+        <div class="name">${p.nombre}</div>
+        ${p.original ? <div class="original-price">$${p.original.toLocaleString("es-CL")}</div> : ""}
+        <div class="price">$${p.precio.toLocaleString("es-CL")}</div>
+        <div class="transfer">$${p.transferencia.toLocaleString("es-CL")} con Transferencia</div>
+        <div class="cuotas">6 cuotas sin interés de $${p.cuotas.toLocaleString("es-CL")}</div>
+      </div>
+      <button class="btn" onclick="addToCart(${p.id})">Agregar al carrito</button>
+    `;
+    productList.appendChild(el);
+  });
+
+  function addToCart(id) {
+    const item = cart.find(p => p.id === id);
+    if (item) {
+      item.qty++;
+    } else {
+      const product = products.find(p => p.id === id);
+      cart.push({ ...product, qty: 1 });
+    }
+    updateCartIcon();
+  }
+
+  function updateCartIcon() {
+    const totalItems = cart.reduce((sum, p) => sum + p.qty, 0);
+    cartIcon.textContent = Carrito (${totalItems});
+  }
+
+  function openCart() {
+    cartItems.innerHTML = '';
+    let total = 0;
+
+    cart.forEach(p => {
+      const item = document.createElement('div');
+      item.innerHTML = ${p.nombre} x${p.qty} — $${(p.precio * p.qty).toLocaleString("es-CL")};
+      cartItems.appendChild(item);
+      total += p.precio * p.qty;
+    });
+
+    cartTotal.textContent = total.toLocaleString("es-CL");
+    cartModal.style.display = 'flex';
+  }
+
+  function closeCart() {
+    cartModal.style.display = 'none';
+  }
+
+  cartIcon.addEventListener('click', openCart);
+</script>
+
     
-<section>
-  <h2>Galería de Proyectos</h2>
+    
+   
 
-  <div class="galería">
-    <details>
-      <summary><strong>Proyecto 1</strong></summary>
-      <img src="img/TALLER1.jpg" alt="Proyecto 1" width="300">
-      <p>Descripción breve del proyecto 1. Por ejemplo: mueble de cocina a medida en madera de lenga.</p>
-    </details>
+   
+     
 
-    <details>
-      <summary><strong>Proyecto 2</strong></summary>
-      <img src="img/TALLER2.jpg" alt="Proyecto 2" width="300">
-      <p>Descripción breve del proyecto 2. Por ejemplo: rack para TV con compartimentos ocultos.</p>
-    </details>
+  
 
-    <details>
-      <summary><strong>Proyecto 3</strong></summary>
-      <img src="img/TALLER3.jpg" alt="Proyecto 3" width="300">
-      <p>Descripción breve del proyecto 3.</p>
-    </details>
-
-    <!-- Puedes seguir así con los demás proyectos -->
-  </div>
-</section>
-
-    <section>
-  <h2>Tienda</h2>
-
-  <form>
-    <div>
-      <h3>Repisa de Madera</h3>
-      <p>Precio: $25.000</p>
-      <p>Stock disponible: 4 unidades</p>
-      <label for="repisaQty">Cantidad:</label>
-      <input type="number" id="repisaQty" name="repisaQty" min="1" max="4">
-    </div>
-
-    <div>
-      <h3>Escritorio Compacto</h3>
-      <p>Precio: $65.000</p>
-      <p>Stock disponible: 2 unidades</p>
-      <label for="escritorioQty">Cantidad:</label>
-      <input type="number" id="escritorioQty" name="escritorioQty" min="1" max="2">
-    </div>
-
-    <h3>Dirección de envío (Starken)</h3>
-    <label for="direccion">Escribe tu dirección completa:</label><br>
-    <textarea id="direccion" name="direccion" rows="4" cols="50" placeholder="Ej: Calle 123, Ciudad, Región"></textarea><br><br>
-
-    <button type="submit">Enviar pedido</button>
-  </form>
-</section>
-
-    <h2>Galería de Proyectos</h2>
-  </div>
-</section>
-    <div class="galeria">
-      <img src="img/TALLER1.jpg" alt="Proyecto 1" />
-      <figcaption>Este es el título o pie de foto </figcaption>
-      <img src="img/TALLER2.jpg" alt="Proyecto 2" />
-      <figcaption>Este es el título o pie de foto </figcaption>
-      <img src="img/TALLER3.jpg" alt="Proyecto 3" />
-      <figcaption>Este es el título o pie de foto </figcaption>
-      <img src="img/TALLER4.jpg" alt="Proyecto 4" />
-      <figcaption>Este es el título o pie de foto </figcaption>
-      <img src="img/TALLER5.jpg" alt="Proyecto 5" />
-      <figcaption>Este es el título o pie de foto </figcaption>
-      <img src="img/TALLER6.jpg" alt="Proyecto 6" />
-      <figcaption>Este es el título o pie de foto </figcaption>
-    </div>
-  </section>
-
-  <section>
-    <h2>Contacto</h2>
-    <p><strong>Instagram:</strong> <a href="https://instagram.com/elarrayan.taller" target="_blank">@elarrayan.taller</a></p>
-    <p><strong>Ubicación:</strong> Catemu, Valparaíso</p>
-  </section>
-
-  <footer>
-    <p>© 2025 El Arrayán Taller. Todos los derechos reservados.</p>
-  </footer>
-
-</body>
-</html>
+   
+  
