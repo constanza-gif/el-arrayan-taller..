@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>el arrayan taller</title>
-  <button onclick="verCarrito()">Ver carrito (<span id="cantidad">0</span>)</button>
-<div id="carrito" style="display:none; margin-top:20px; background:white; padding:15px; border:1px solid #ccc;"></div>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>El Arrayán Taller</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: sans-serif; background-color: #f9f9f9; }
@@ -20,11 +18,11 @@
       top: 0;
       z-index: 10;
     }
-    .logo { font-size: 24px; font-weight: bold; }
-    .cart { font-size: 16px; }
-
-    .container { padding: 20px; display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
-
+    .logo img { height: 40px; }
+    .cart { font-size: 16px; cursor: pointer; }
+    .container { padding: 20px; }
+    .section-title { font-size: 24px; margin: 20px 0 10px; }
+    .grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
     .product {
       background: white;
       border-radius: 8px;
@@ -33,19 +31,11 @@
       display: flex;
       flex-direction: column;
     }
-    .product img {
-      width: 100%;
-      object-fit: cover;
-      height: 200px;
-    }
-    .info {
-      padding: 15px;
-    }
-    .name { font-size: 18px; font-weight: bold; margin-bottom: 5px; }
-    .price { font-size: 16px; font-weight: bold; }
-    .original-price { text-decoration: line-through; font-size: 14px; color: gray; }
-    .transfer { color: goldenrod; font-size: 15px; margin: 5px 0; }
-    .cuotas { font-size: 14px; margin-bottom: 10px; }
+    .product img { width: 100%; height: 200px; object-fit: cover; }
+    .info { padding: 15px; }
+    .name { font-size: 18px; font-weight: bold; }
+    .price, .original-price, .transfer, .cuotas { font-size: 14px; margin: 5px 0; }
+    .original-price { text-decoration: line-through; color: gray; }
     .btn {
       background: goldenrod;
       color: white;
@@ -53,271 +43,32 @@
       border: none;
       font-weight: bold;
       cursor: pointer;
-      width: 100%;
       border-radius: 0 0 8px 8px;
     }
-
     footer {
       text-align: center;
       padding: 10px;
       background: #333;
       color: white;
-      position: fixed;
-      bottom: 0;
-      width: 100%;
+      margin-top: 40px;
     }
   </style>
 </head>
 <body>
-
 <header>
-  <div class="logo">MI TIENDA</div>
-  <div class="cart">Carrito (0)</div>
+  <div class="logo"><img src="logotipo.jpg" alt="El Arrayán Taller"></div>
+  <div class="cart" onclick="verCarrito()">Ver carrito (<span id="cantidad">0</span>)</div>
 </header>
 
-<main class="container" id="product-list">
-  <!-- Los productos se generan desde JavaScript -->
-</main>
+<div class="container">
+  <h2 class="section-title">Decoración</h2>
+  <div class="grid" id="decoracion"></div>
 
-<footer>
-  Al navegar por este sitio aceptás el uso de cookies para mejorar tu experiencia.
-</footer>
+  <h2 class="section-title">Muebles</h2>
+  <div class="grid" id="muebles"></div>
+</div>
 
-<script>
-  const products = [
-    {
-      nombre: "Mesa de Arrime Chapa y Hierro",
-      precio: 150000,
-      original: 190000,
-      transferencia: 127500,
-      cuotas: 25000,
-      imagen: "https://via.placeholder.com/400x300"
-    },
-    {
-      nombre: "Perchero VIVORATÁ",
-      precio: 28750,
-      original: null,
-      transferencia: 24437,
-      cuotas: 4791,
-      imagen: "https://via.placeholder.com/400x300"
-    }
-  ];
-
-  const productList = document.getElementById('product-list');
-
-  products.forEach(p => {
-    const el = document.createElement('div');
-    el.className = 'product';
-    el.innerHTML = `
-      <img src="${p.imagen}" alt="${p.nombre}">
-      <div class="info">
-        <div class="name">${p.nombre}</div>
-        ${p.original ? <div class="original-price">$${p.original.toLocaleString("es-CL")}</div> : ""}
-        <div class="price">$${p.precio.toLocaleString("es-CL")}</div>
-        <div class="transfer">$${p.transferencia.toLocaleString("es-CL")} con Transferencia</div>
-        <div class="cuotas">6 cuotas sin interés de $${p.cuotas.toLocaleString("es-CL")}</div>
-      </div>
-      <button class="btn">Agregar al carrito</button>
-    `;
-    productList.appendChild(el);
-  });
-<script>
-  const products = [
-    {
-      id: 1,
-      nombre: "lampara teca",
-      precio: 10000,
-      original: 190000,
-      transferencia: 127500,
-      cuotas: 25000,
-      imagen: "TALLER4.jpg"
-    },
-    {
-      id: 2,
-      nombre: "repisa nogal",
-      precio: 8000,
-      original: null,
-      transferencia: 24437,
-      cuotas: 4791,
-      imagen: "https://via.placeholder.com/400x300"
-    }
-  ];
-
-  const productList = document.getElementById('product-list');
-  const cartIcon = document.querySelector('.cart');
-  const cartModal = document.getElementById('cart-modal');
-  const cartItems = document.getElementById('cart-items');
-  const cartTotal = document.getElementById('cart-total');
-
-  let cart = [];
-
-  // Render productos
-  products.forEach(p => {
-    const el = document.createElement('div');
-    el.className = 'product';
-    el.innerHTML = `
-      <img src="${p.imagen}" alt="${p.nombre}">
-      <div class="info">
-        <div class="name">${p.nombre}</div>
-        ${p.original ? <div class="original-price">$${p.original.toLocaleString("es-CL")}</div> : ""}
-        <div class="price">$${p.precio.toLocaleString("es-CL")}</div>
-        <div class="transfer">$${p.transferencia.toLocaleString("es-CL")} con Transferencia</div>
-        <div class="cuotas">6 cuotas sin interés de $${p.cuotas.toLocaleString("es-CL")}</div>
-      </div>
-      <button class="btn" onclick="addToCart(${p.id})">Agregar al carrito</button>
-    `;
-    productList.appendChild(el);
-  });
-
-  function addToCart(id) {
-    const item = cart.find(p => p.id === id);
-    if (item) {
-      item.qty++;
-    } else {
-      const product = products.find(p => p.id === id);
-      cart.push({ ...product, qty: 1 });
-    }
-    updateCartIcon();
-  }
-
-  function updateCartIcon() {
-    const totalItems = cart.reduce((sum, p) => sum + p.qty, 0);
-    cartIcon.textContent = Carrito (${totalItems});
-  }
-
-  function openCart() {
-    cartItems.innerHTML = '';
-    let total = 0;
-
-    cart.forEach(p => {
-      const item = document.createElement('div');
-      item.innerHTML = ${p.nombre} x${p.qty} — $${(p.precio * p.qty).toLocaleString("es-CL")};
-      cartItems.appendChild(item);
-      total += p.precio * p.qty;
-    });
-
-    cartTotal.textContent = total.toLocaleString("es-CL");
-    cartModal.style.display = 'flex';
-  }
-
-  function closeCart() {
-    cartModal.style.display = 'none';
-  }
-
-  cartIcon.addEventListener('click', openCart);
-</script>
-  <!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Mi Tienda desde Google Sheets</title>
-  <style>
-    body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
-    .container { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-    .card {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      overflow: hidden;
-    }
-    .card img { width: 100%; height: 200px; object-fit: cover; }
-    .info { padding: 15px; }
-    .name { font-size: 18px; font-weight: bold; }
-    .price, .transfer, .cuotas, .stock { font-size: 14px; margin: 5px 0; }
-  </style>
-</head>
-<body>
-
-<h1>Productos en Stock</h1>
-<div class="container" id="productos"></div>
-
-<script>
-const SHEET_ID = 'https://docs.google.com/spreadsheets/d/1Ay4mu-3UsFBfTNSsuqGMGtfYd8ZC1jkj8NB7vbSPdyo/edit?usp=drivesdk';
-const SHEET_NAME = 'Productos Tienda';
-const API_URL = https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME};
-
-fetch(API_URL)
-  .then(res => res.json())
-  .then(data => {
-    const contenedor = document.getElementById('productos');
-    data.forEach(p => {
-      const div = document.createElement('div');
-      div.className = 'card';
-      div.innerHTML = `
-        <img src="${p.Imagen}" alt="${p.Nombre}">
-        <div class="info">
-          <div class="name">${p.Nombre}</div>
-          <div class="price">Precio: $${parseInt(p.Precio).toLocaleString("es-CL")}</div>
-          <div class="transfer">Transferencia: $${parseInt(p.Transferencia).toLocaleString("es-CL")}</div>
-          <div class="cuotas">6 cuotas de $${parseInt(p.Cuotas).toLocaleString("es-CL")}</div>
-          <div class="stock">Stock: ${p.Stock}</div>
-        </div>
-      `;
-      contenedor.appendChild(div);
-    });
-  });
-</script>
-  <script>
-const SHEET_ID = 'PON_AQUI_EL_ID_DE_TU_HOJA';
-const SHEET_NAME = 'Productos Tienda';
-const API_URL = https://opensheet.elk.sh/${SHEET_ID}/${SHEET_NAME};
-
-let carrito = [];
-
-fetch(API_URL)
-  .then(res => res.json())
-  .then(data => {
-    const contenedor = document.getElementById('productos');
-    data.forEach(p => {
-      const div = document.createElement('div');
-      div.className = 'card';
-      div.innerHTML = `
-        <img src="${p.Imagen}" alt="${p.Nombre}">
-        <div class="info">
-          <div class="name">${p.Nombre}</div>
-          <div class="price">Precio: $${parseInt(p.Precio).toLocaleString("es-CL")}</div>
-          <div class="transfer">Transferencia: $${parseInt(p.Transferencia).toLocaleString("es-CL")}</div>
-          <div class="cuotas">6 cuotas de $${parseInt(p.Cuotas).toLocaleString("es-CL")}</div>
-          <div class="stock">Stock: ${p.Stock}</div>
-          <button onclick='agregarAlCarrito(${JSON.stringify(p)})'>Agregar al carrito</button>
-        </div>
-      `;
-      contenedor.appendChild(div);
-    });
-  });
-
-function agregarAlCarrito(producto) {
-  const existente = carrito.find(p => p.ID === producto.ID);
-  if (existente) {
-    existente.cantidad++;
-  } else {
-    carrito.push({...producto, cantidad: 1});
-  }
-  actualizarCantidad();
-}
-
-function actualizarCantidad() {
-  document.getElementById('cantidad').textContent = carrito.reduce((sum, p) => sum + p.cantidad, 0);
-}
-
-function verCarrito() {
-  const div = document.getElementById('carrito');
-  div.innerHTML = '';
-  let total = 0;
-  carrito.forEach(p => {
-    const subtotal = p.Precio * p.cantidad;
-    total += subtotal;
-    div.innerHTML += `
-      <p>${p.Nombre} x${p.cantidad} - $${subtotal.toLocaleString("es-CL")}</p>
-    `;
-  });
-  div.innerHTML += <hr><strong>Total: $${total.toLocaleString("es-CL")}</strong>;
-  div.style.display = 'block';
-}
-</script>
-  <a href="Ingresa al link para pagar https://mpago.la/2F6Wxpt" target="_blank">
-  <button>Pagar con MercadoPago</button>
-</a>
+<div id
 
 
 
