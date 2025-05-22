@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -58,17 +57,81 @@
 <header>
   <div class="logo"><img src="logotipo.jpg" alt="El Arrayán Taller"></div>
   <div class="cart" onclick="verCarrito()">Ver carrito (<span id="cantidad">0</span>)</div>
-</header>
-
-<div class="container">
+</header><div class="container">
   <h2 class="section-title">Decoración</h2>
-  <div class="grid" id="decoracion"></div>
-
-  <h2 class="section-title">Muebles</h2>
+  <div class="grid" id="decoracion"></div>  <h2 class="section-title">Muebles</h2>
   <div class="grid" id="muebles"></div>
-</div>
+</div><div id="carrito" style="display:none; margin: 20px; background:white; padding:15px; border:1px solid #ccc;"></div><footer>
+  Al navegar por este sitio aceptás el uso de cookies para mejorar tu experiencia.
+</footer><script>
+const decoracion = [
+  { id: 1, nombre: "Decoración 1", precio: 15000, original: 18000, transferencia: 14000, cuotas: 2500, imagen: "TALLER2.jpg" },
+  { id: 2, nombre: "Decoración 2", precio: 16000, original: null, transferencia: 14500, cuotas: 2600, imagen: "TALLER3.jpg" },
+  { id: 3, nombre: "Decoración 3", precio: 17000, original: 20000, transferencia: 15000, cuotas: 2800, imagen: "TALLER4.jpg" },
+  { id: 4, nombre: "Decoración 4", precio: 18000, original: null, transferencia: 15500, cuotas: 3000, imagen: "TALLER5.jpg" },
+  { id: 5, nombre: "Decoración 5", precio: 19000, original: 22000, transferencia: 16000, cuotas: 3100, imagen: "TALLER6.jpg" }
+];
 
-<div id
+const muebles = [
+  { id: 6, nombre: "Mesa Rústica", precio: 120000, original: 150000, transferencia: 105000, cuotas: 20000, imagen: "https://via.placeholder.com/400x300" },
+  { id: 7, nombre: "Silla de Madera", precio: 30000, original: null, transferencia: 27000, cuotas: 5000, imagen: "https://via.placeholder.com/400x300" }
+];
+
+let carrito = [];
+
+function renderProductos(productos, contenedorID) {
+  const contenedor = document.getElementById(contenedorID);
+  productos.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'product';
+    div.innerHTML = `
+      <img src="${p.imagen}" alt="${p.nombre}">
+      <div class="info">
+        <div class="name">${p.nombre}</div>
+        ${p.original ? <div class="original-price">$${p.original.toLocaleString('es-CL')}</div> : ''}
+        <div class="price">$${p.precio.toLocaleString('es-CL')}</div>
+        <div class="transfer">Transferencia: $${p.transferencia.toLocaleString('es-CL')}</div>
+        <div class="cuotas">6 cuotas de $${p.cuotas.toLocaleString('es-CL')}</div>
+      </div>
+      <button class="btn" onclick="agregarAlCarrito(${p.id})">Agregar al carrito</button>
+    `;
+    contenedor.appendChild(div);
+  });
+}
+
+const todos = [...decoracion, ...muebles];
+renderProductos(decoracion, 'decoracion');
+renderProductos(muebles, 'muebles');
+
+function agregarAlCarrito(id) {
+  const producto = todos.find(p => p.id === id);
+  const existente = carrito.find(p => p.id === id);
+  if (existente) {
+    existente.cantidad++;
+  } else {
+    carrito.push({ ...producto, cantidad: 1 });
+  }
+  actualizarCantidad();
+}
+
+function actualizarCantidad() {
+  document.getElementById('cantidad').textContent = carrito.reduce((s, p) => s + p.cantidad, 0);
+}
+
+function verCarrito() {
+  const div = document.getElementById('carrito');
+  div.innerHTML = '';
+  let total = 0;
+  carrito.forEach(p => {
+    const subtotal = p.precio * p.cantidad;
+    total += subtotal;
+    div.innerHTML += <p>${p.nombre} x${p.cantidad} - $${subtotal.toLocaleString('es-CL')}</p>;
+  });
+  div.innerHTML += <hr><strong>Total: $${total.toLocaleString('es-CL')}</strong>;
+  div.style.display = 'block';
+}
+</script></body>
+</html>
 
 
 
