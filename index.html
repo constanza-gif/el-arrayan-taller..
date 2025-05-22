@@ -1,201 +1,140 @@
-<!DOCTYPE html>
-<html lang="es">
+<!DOCTYPE html><html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>El Arrayán Taller</title>
   <style>
     body {
-      background-color: #f4f1ed;
-      color: #2e2e2e;
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
     }
     header {
-      background-color: #3e3e3e;
+      background: #3e2f1c;
       color: white;
-      text-align: center;
-      padding: 1em;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    header img {
-      height: 80px;
+    .logo {
+      display: flex;
+      align-items: center;
     }
-    h1 {
-      margin: 0.5em 0;
+    .logo img {
+      height: 50px;
+      margin-right: 10px;
     }
-    nav {
-      text-align: center;
-      margin: 1em 0;
-    }
-    nav button {
-      margin: 0.5em;
-      padding: 0.8em 1.2em;
-      background-color: #4e3e2f;
+    .section-button {
+      margin: 10px;
+      padding: 10px 20px;
+      background-color: #2e5939;
       color: white;
       border: none;
       cursor: pointer;
     }
-    .seccion {
+    .section {
       display: none;
-      padding: 1em;
+      padding: 20px;
     }
-    .producto {
-      border: 1px solid #ccc;
-      padding: 1em;
-      margin: 1em;
-      display: inline-block;
-      width: 200px;
-      vertical-align: top;
+    .card {
       background: white;
+      margin: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
-    .producto img {
+    .card img {
       width: 100%;
-      height: auto;
+      max-height: 200px;
+      object-fit: cover;
     }
+    .info { margin-top: 10px; }
     #carrito {
-      position: fixed;
-      top: 1em;
-      right: 1em;
-      background: #4e3e2f;
+      background: #fff;
+      padding: 20px;
+      margin: 20px;
+      border: 1px solid #ccc;
+      display: none;
+    }
+    .carrito-btn {
+      background: #3e2f1c;
       color: white;
-      padding: 0.5em 1em;
+      border: none;
+      padding: 10px;
       cursor: pointer;
     }
-    #carrito-lista {
-      background: white;
-      color: black;
-      position: fixed;
-      top: 4em;
-      right: 1em;
-      border: 1px solid #aaa;
-      display: none;
-      padding: 1em;
-      width: 300px;
-    }
-    #formulario-envio {
-      display: none;
-      padding: 2em;
-      background: #fff;
-    }
-    input, textarea {
-      width: 100%;
-      margin: 0.5em 0;
-      padding: 0.5em;
+    footer {
+      background: #333;
+      color: white;
+      text-align: center;
+      padding: 15px;
     }
   </style>
 </head>
-<body>
-
-<header>
-  <img src="imagen/logotipo.jpg" alt="Logotipo El Arrayán Taller" />
-  <h1>Bienvenidos a El Arrayán Taller</h1>
-  <p>Diseños hechos a mano desde Catemu, Valparaíso</p>
-</header>
-
-<nav>
-  <button onclick="mostrarSeccion('decoracion')">Decoración</button>
-  <button onclick="mostrarSeccion('mueble')">Muebles</button>
-  <button onclick="mostrarCarrito()">Carrito</button>
-</nav>
-
-<div id="decoracion" class="seccion">
-  <div class="producto">
-    <img src="imagen/TALLER1.jpg" alt="REPISA NOGAL">
-    <h3>REPISA NOGAL</h3>
-    <p>$7.000</p>
-    <button onclick="agregarAlCarrito('REPISA NOGAL', 7000)">Agregar</button>
+<body><header>
+  <div class="logo">
+    <img src="logotipo.jpg" alt="Logo">
+    <h1>El Arrayán Taller</h1>
   </div>
-  <div class="producto">
-    <img src="imagen/TALLER2.jpg" alt="COLGADOR">
-    <h3>COLGADOR</h3>
-    <p>$10.000</p>
-    <button onclick="agregarAlCarrito('COLGADOR', 10000)">Agregar</button>
-  </div>
-  <div class="producto">
-    <img src="imagen/TALLER3.jpg" alt="COLGADOR">
-    <h3>COLGADOR</h3>
-    <p>$10.000</p>
-    <button onclick="agregarAlCarrito('COLGADOR', 10000)">Agregar</button>
-  </div>
-  <div class="producto">
-    <img src="imagen/TALLER4.jpg" alt="LAMPARA TECA">
-    <h3>LÁMPARA TECA</h3>
-    <p>$15.000</p>
-    <button onclick="agregarAlCarrito('LÁMPARA TECA', 15000)">Agregar</button>
-  </div>
-  <div class="producto">
-    <img src="imagen/TALLER6.jpg" alt="COLGADOR REPISA">
-    <h3>COLGADOR REPISA</h3>
-    <p>$15.000</p>
-    <button onclick="agregarAlCarrito('COLGADOR REPISA', 15000)">Agregar</button>
-  </div>
-</div>
+  <button class="carrito-btn" onclick="mostrarCarrito()">Ver Carrito (<span id="cantidad">0</span>)</button>
+</header><div style="padding: 20px;">
+  <p>Bienvenido a El Arrayán Taller, desde Catemu, Valparaíso. Encuentra decoración artesanal y muebles únicos hechos con cariño.</p><button class="section-button" onclick="mostrarSeccion('decoracion')">Decoración</button> <button class="section-button" onclick="mostrarSeccion('muebles')">Muebles</button>
 
-<div id="mueble" class="seccion">
-  <div class="producto">
-    <img src="imagen/TALLER5.jpg" alt="BANCA">
-    <h3>BANCA</h3>
-    <p>$30.000</p>
-    <button onclick="agregarAlCarrito('BANCA', 30000)">Agregar</button>
-  </div>
-</div>
-
-<div id="carrito" onclick="mostrarCarrito()">Carrito</div>
-<div id="carrito-lista"></div>
-
-<div id="formulario-envio">
-  <h2>Datos de envío (Starken)</h2>
-  <input type="text" placeholder="Nombre completo">
-  <input type="text" placeholder="Dirección">
-  <input type="text" placeholder="Región / Ciudad">
-  <input type="text" placeholder="Teléfono">
-  <input type="email" placeholder="Correo">
-  <h3>Datos para el pago (Mercado Pago)</h3>
-  <p>Cuenta Banco Estado</p>
-  <p>RUT: 21.504.906-K</p>
-  <p>A nombre de: Constanza Fernández</p>
-  <button onclick="alert('Gracias por tu compra. Te contactaremos.')">Pagar</button>
-</div>
-
-<script>
+</div><div id="decoracion" class="section">
+  <div class="card"><img src="TALLER1.jpg"><div class="info"><b>Repisa Nogal</b><br>$7.000<br>Stock: 3</div><button onclick="agregarAlCarrito('Repisa Nogal', 7000)">Agregar</button></div>
+  <div class="card"><img src="TALLER2.jpg"><div class="info"><b>Colgador</b><br>$10.000<br>Stock: 5</div><button onclick="agregarAlCarrito('Colgador', 10000)">Agregar</button></div>
+  <div class="card"><img src="TALLER3.jpg"><div class="info"><b>Colgador</b><br>$10.000<br>Stock: 4</div><button onclick="agregarAlCarrito('Colgador', 10000)">Agregar</button></div>
+  <div class="card"><img src="TALLER4.jpg"><div class="info"><b>Lámpara Teca</b><br>$15.000<br>Stock: 2</div><button onclick="agregarAlCarrito('Lámpara Teca', 15000)">Agregar</button></div>
+  <div class="card"><img src="TALLER6.jpg"><div class="info"><b>Colgador Repisa</b><br>$15.000<br>Stock: 3</div><button onclick="agregarAlCarrito('Colgador Repisa', 15000)">Agregar</button></div>
+</div><div id="muebles" class="section">
+  <div class="card"><img src="TALLER5.jpg"><div class="info"><b>Banca</b><br>$30.000<br>Stock: 1</div><button onclick="agregarAlCarrito('Banca', 30000)">Agregar</button></div>
+</div><div id="carrito"></div><footer>
+  El Arrayán Taller | Catemu, Valparaíso
+</footer><script>
   let carrito = [];
 
   function mostrarSeccion(id) {
-    document.querySelectorAll('.seccion').forEach(s => s.style.display = 'none');
+    document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
     document.getElementById(id).style.display = 'block';
-    document.getElementById('formulario-envio').style.display = 'none';
-    document.getElementById('carrito-lista').style.display = 'none';
   }
 
   function agregarAlCarrito(nombre, precio) {
-    carrito.push({ nombre, precio });
-    alert(nombre + " agregado al carrito.");
+    const existe = carrito.find(p => p.nombre === nombre);
+    if (existe) {
+      existe.cantidad++;
+    } else {
+      carrito.push({ nombre, precio, cantidad: 1 });
+    }
+    actualizarCarrito();
+  }
+
+  function actualizarCarrito() {
+    document.getElementById('cantidad').innerText = carrito.reduce((acc, p) => acc + p.cantidad, 0);
   }
 
   function mostrarCarrito() {
-    const lista = document.getElementById('carrito-lista');
-    if (lista.style.display === 'block') {
-      lista.style.display = 'none';
-      return;
-    }
-    let html = '<h3>Carrito</h3><ul>';
+    const div = document.getElementById('carrito');
+    div.innerHTML = '<h3>Carrito de Compras</h3>';
     let total = 0;
-    carrito.forEach(item => {
-      html += <li>${item.nombre}: $${item.precio}</li>;
-      total += item.precio;
+    carrito.forEach(p => {
+      const subtotal = p.precio * p.cantidad;
+      total += subtotal;
+      div.innerHTML += <p>${p.nombre} x${p.cantidad} — $${subtotal.toLocaleString('es-CL')}</p>;
     });
-    html += </ul><p>Total: $${total}</p>;
-    html += '<button onclick="mostrarFormularioEnvio()">Continuar a envío</button>';
-    lista.innerHTML = html;
-    lista.style.display = 'block';
+    div.innerHTML += <hr><strong>Total: $${total.toLocaleString('es-CL')}</strong><br><br>;
+    div.innerHTML += `
+      <h4>Datos de envío por Starken</h4>
+      <label>Nombre: <input type="text"></label><br>
+      <label>Dirección: <input type="text"></label><br>
+      <label>Ciudad: <input type="text"></label><br>
+      <label>Teléfono: <input type="text"></label><br><br>
+      <a href="https://mpago.la/2F6Wxpt" target="_blank"><button>Pagar con MercadoPago</button></a>
+    `;
+    div.style.display = 'block';
   }
-
-  function mostrarFormularioEnvio() {
-    document.getElementById('carrito-lista').style.display = 'none';
-    document.getElementById('formulario-envio').style.display = 'block';
-  }
-</script>
-
-</body>
+</script></body>
 </html>
 
     
