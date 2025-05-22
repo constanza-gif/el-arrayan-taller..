@@ -1,144 +1,123 @@
 <!DOCTYPE html><html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El Arrayán Taller</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f0;
-            margin: 0;
-            padding: 0;
-            color: #333;
-        }
-        header {
-            background-color: #3e3e3c;
-            color: white;
-            padding: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        header img {
-            height: 60px;
-        }
-        nav button {
-            background-color: #4a3f35;
-            color: white;
-            padding: 0.5rem 1rem;
-            margin: 0 0.3rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .section {
-            display: none;
-            padding: 1rem;
-        }
-        .active {
-            display: block;
-        }
-        .product img {
-            width: 200px;
-            height: auto;
-            margin: 0.5rem;
-        }
-        .cart-section, .shipping-section {
-            background-color: #e0e0e0;
-            padding: 1rem;
-            border-radius: 8px;
-            margin-top: 1rem;
-        }
-        .btn {
-            background-color: #2e5939;
-            color: white;
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    </style>
-    <script>
-        function showSection(id) {
-            const sections = document.querySelectorAll('.section');
-            sections.forEach(sec => sec.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-        }let cart = [];
-
-    function addToCart(product, price) {
-        cart.push({product, price});
-        updateCart();
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Arrayán Taller</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background-color: #f4f1ec;
+      color: #333;
     }
-
-    function updateCart() {
-        const cartList = document.getElementById("cart-items");
-        const totalDisplay = document.getElementById("cart-total");
-        cartList.innerHTML = "";
-        let total = 0;
-        cart.forEach(item => {
-            const li = document.createElement("li");
-            li.textContent = ${item.product} - $${item.price};
-            cartList.appendChild(li);
-            total += parseInt(item.price);
-        });
-        totalDisplay.textContent = Total: $${total};
+    header {
+      background-color: #3e2f25;
+      color: white;
+      padding: 20px;
+      text-align: center;
     }
-</script>
-
+    header img {
+      max-height: 60px;
+      vertical-align: middle;
+    }
+    section {
+      padding: 20px;
+    }
+    .btn {
+      background-color: #2e7d32;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+    .galeria img {
+      max-width: 200px;
+      margin: 10px;
+      border: 2px solid #ccc;
+    }
+    .hidden {
+      display: none;
+    }
+    footer {
+      background-color: #3e2f25;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <img src="imagen/logotipo.jpg" alt="Logo El Arrayán Taller">
-        <nav>
-            <button onclick="showSection('bienvenida')">Inicio</button>
-            <button onclick="showSection('decoracion')">Decoración</button>
-            <button onclick="showSection('muebles')">Muebles</button>
-            <button onclick="showSection('carro')">Carrito</button>
-            <button onclick="showSection('envio')">Envío</button>
-        </nav>
-    </header><section id="bienvenida" class="section active">
+  <header>
+    <img src="imagen/logotipo.jpg" alt="Logo El Arrayán Taller" />
     <h1>Bienvenidos a El Arrayán Taller</h1>
-    <p>Desde Catemu, Valparaíso, te damos la bienvenida a nuestro espacio de diseño artesanal. Aquí encontrarás productos únicos en decoración y muebles hechos con amor y dedicación.</p>
-</section>
+    <p>Desde Catemu, Valparaíso, creamos piezas únicas en decoración y muebles</p>
+  </header>  <section>
+    <button class="btn" onclick="toggleSection('decoracion')">Decoración</button>
+    <div id="decoracion" class="hidden galeria">
+      <img src="imagen/TALLER2.jpg" alt="Decoración 1" />
+      <img src="imagen/TALLER3.jpg" alt="Decoración 2" />
+      <img src="imagen/TALLER4.jpg" alt="Decoración 3" />
+    </div><button class="btn" onclick="toggleSection('muebles')">Muebles</button>
+<div id="muebles" class="hidden galeria">
+  <img src="imagen/TALLER5.jpg" alt="Mueble 1" />
+  <img src="imagen/TALLER6.jpg" alt="Mueble 2" />
+</div>
 
-<section id="decoracion" class="section">
-    <h2>Decoración</h2>
-    <div class="product">
-        <img src="imagen/TALLER2.jpg" alt="Decoración 1">
-        <img src="imagen/TALLER3.jpg" alt="Decoración 2">
-        <img src="imagen/TALLER4.jpg" alt="Decoración 3">
-        <button class="btn" onclick="addToCart('Decoración', 15000)">Agregar al carrito - $15.000</button>
-    </div>
-</section>
-
-<section id="muebles" class="section">
-    <h2>Muebles</h2>
-    <div class="product">
-        <img src="imagen/TALLER5.jpg" alt="Mueble 1">
-        <img src="imagen/TALLER6.jpg" alt="Mueble 2">
-        <button class="btn" onclick="addToCart('Mueble', 35000)">Agregar al carrito - $35.000</button>
-    </div>
-</section>
-
-<section id="carro" class="section cart-section">
-    <h2>Carrito de Compras</h2>
-    <ul id="cart-items"></ul>
-    <p id="cart-total">Total: $0</p>
-</section>
-
-<section id="envio" class="section shipping-section">
-    <h2>Datos de Envío</h2>
-    <form action="https://www.mercadopago.cl/checkout/v1/redirect?pref_id=tu_enlace" method="GET">
-        <label>Nombre completo:<br><input type="text" required></label><br><br>
-        <label>Dirección:<br><input type="text" required></label><br><br>
-        <label>Región y ciudad:<br><input type="text" value="Catemu, Valparaíso" required></label><br><br>
-        <label>Teléfono:<br><input type="tel" required></label><br><br>
-        <label>Observaciones para Starken:<br><textarea></textarea></label><br><br>
-        <button type="submit" class="btn">Pagar con Mercado Pago</button>
+  </section>  <section>
+    <h2>Carrito</h2>
+    <div id="carrito"></div>
+    <p id="total">Total: $0</p>
+    <button class="btn" onclick="mostrarFormularioEnvio()">Datos de envío</button>
+  </section>  <section id="formulario-envio" class="hidden">
+    <h3>Formulario de Envío por Starken</h3>
+    <form>
+      <label>Nombre completo:<br /><input type="text" required /></label><br />
+      <label>RUT:<br /><input type="text" required /></label><br />
+      <label>Dirección:<br /><input type="text" required /></label><br />
+      <label>Ciudad / Región:<br /><input type="text" required /></label><br />
+      <label>Teléfono:<br /><input type="text" required /></label><br />
+      <label>Email:<br /><input type="email" required /></label><br /><br />
+      <button class="btn" onclick="pagar(event)">Pagar</button>
     </form>
-</section>
+  </section>  <footer>
+    Taller El Arrayán - Catemu, Valparaíso
+  </footer>  <script>
+    function toggleSection(id) {
+      const sec = document.getElementById(id);
+      sec.classList.toggle('hidden');
+    }
 
-</body>
+    const carrito = [
+      { nombre: "Decoración rústica", precio: 15000 },
+      { nombre: "Mesa de madera", precio: 45000 }
+    ];
+
+    function mostrarCarrito() {
+      const contenedor = document.getElementById("carrito");
+      let html = "<ul>";
+      let total = 0;
+      carrito.forEach((item) => {
+        html += <li>${item.nombre}: $${item.precio}</li>;
+        total += item.precio;
+      });
+      html += "</ul>";
+      contenedor.innerHTML = html;
+      document.getElementById("total").innerText = Total: $${total};
+    }
+
+    function mostrarFormularioEnvio() {
+      document.getElementById("formulario-envio").classList.remove("hidden");
+    }
+
+    function pagar(event) {
+      event.preventDefault();
+      alert("Redirigiendo a pago con Mercado Pago. Datos:");
+      // Aquí deberías conectar a MercadoPago usando tus datos (Cuenta Banco Estado, RUT: 21.504.906-k, a nombre de Constanza Fernández)
+    }
+
+    mostrarCarrito();
+  </script></body>
 </html>
 
     
