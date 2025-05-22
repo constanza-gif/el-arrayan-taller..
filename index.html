@@ -1,138 +1,159 @@
 <!DOCTYPE html><html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>El Arrayán Taller</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: sans-serif; background-color: #f9f9f9; }
+    body { font-family: sans-serif; background-color: #f9f6f2; color: #333; }
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: white;
+      background: #4a3626;
       padding: 15px 20px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      color: white;
     }
-    .logo img { height: 40px; }
-    .cart { font-size: 16px; cursor: pointer; }
+    .logo img { height: 50px; }
+    .cart-button {
+      background-color: #3a5522;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
     .container { padding: 20px; }
-    .section-title { font-size: 24px; margin: 20px 0 10px; }
-    .grid { display: grid; gap: 20px; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
-    .product {
+    .bienvenida {
+      background: #eae4dc;
+      padding: 15px;
+      border-left: 5px solid #4a3626;
+      margin-bottom: 20px;
+    }
+    .seccion { margin-top: 30px; }
+    .productos { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+    .card {
       background: white;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
     }
-    .product img { width: 100%; height: 200px; object-fit: cover; }
+    .card img { width: 100%; height: 200px; object-fit: cover; }
     .info { padding: 15px; }
     .name { font-size: 18px; font-weight: bold; }
-    .price, .original-price, .transfer, .cuotas { font-size: 14px; margin: 5px 0; }
-    .original-price { text-decoration: line-through; color: gray; }
-    .btn {
-      background: goldenrod;
+    .price, .transfer, .cuotas, .stock { font-size: 14px; margin: 5px 0; }
+    footer {
+      background: #4a3626;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      margin-top: 40px;
+    }
+    #carrito { margin-top: 20px; background: white; padding: 15px; border: 1px solid #ccc; }
+    .formulario-envio input { display: block; margin: 10px 0; padding: 8px; width: 100%; max-width: 400px; }
+    .btn-pago {
+      margin-top: 15px;
+      background: #3a5522;
       color: white;
       padding: 10px;
       border: none;
-      font-weight: bold;
+      border-radius: 5px;
       cursor: pointer;
-      border-radius: 0 0 8px 8px;
-    }
-    footer {
-      text-align: center;
-      padding: 10px;
-      background: #333;
-      color: white;
-      margin-top: 40px;
     }
   </style>
 </head>
 <body>
 <header>
-  <div class="logo"><img src="logotipo.jpg" alt="El Arrayán Taller"></div>
-  <div class="cart" onclick="verCarrito()">Ver carrito (<span id="cantidad">0</span>)</div>
-</header><div class="container">
-  <h2 class="section-title">Decoración</h2>
-  <div class="grid" id="decoracion"></div>  <h2 class="section-title">Muebles</h2>
-  <div class="grid" id="muebles"></div>
-</div><div id="carrito" style="display:none; margin: 20px; background:white; padding:15px; border:1px solid #ccc;"></div><footer>
-  Al navegar por este sitio aceptás el uso de cookies para mejorar tu experiencia.
+  <div class="logo"><img src="logotipo.jpg" alt="Logo" /></div>
+  <button class="cart-button" onclick="verCarrito()">Ver carrito (<span id="cantidad">0</span>)</button>
+</header><main class="container">
+  <div class="bienvenida">
+    <h2>Bienvenidos a El Arrayán Taller</h2>
+    <p>Artesanía y decoración hecha a mano desde Catemu, Valparaíso. Cada pieza está hecha con dedicación y materiales nobles para llenar de vida tu hogar.</p>
+  </div>  <div class="seccion">
+    <h3>Decoración</h3>
+    <div class="productos" id="decoracion"></div>
+  </div>  <div class="seccion">
+    <h3>Muebles</h3>
+    <div class="productos" id="muebles"></div>
+  </div>  <div id="carrito" style="display:none;"></div>
+</main><footer>
+  El Arrayán Taller - Catemu, Valparaíso | Contacto: +56 9 1234 5678
 </footer><script>
-const decoracion = [
-  { id: 1, nombre: "Decoración 1", precio: 15000, original: 18000, transferencia: 14000, cuotas: 2500, imagen: "TALLER2.jpg" },
-  { id: 2, nombre: "Decoración 2", precio: 16000, original: null, transferencia: 14500, cuotas: 2600, imagen: "TALLER3.jpg" },
-  { id: 3, nombre: "Decoración 3", precio: 17000, original: 20000, transferencia: 15000, cuotas: 2800, imagen: "TALLER4.jpg" },
-  { id: 4, nombre: "Decoración 4", precio: 18000, original: null, transferencia: 15500, cuotas: 3000, imagen: "TALLER5.jpg" },
-  { id: 5, nombre: "Decoración 5", precio: 19000, original: 22000, transferencia: 16000, cuotas: 3100, imagen: "TALLER6.jpg" }
+const imagenesDecoracion = ["TALLER2.jpg", "TALLER3.jpg", "TALLER4.jpg", "TALLER5.jpg", "TALLER6.jpg"];
+const decoracion = document.getElementById('decoracion');
+
+imagenesDecoracion.forEach((img, i) => {
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.innerHTML = `
+    <img src="${img}" alt="Decoración ${i + 1}" />
+    <div class="info">
+      <div class="name">Producto Decoración ${i + 1}</div>
+      <div class="price">Precio: $10.000</div>
+      <div class="stock">Stock: 5</div>
+      <button onclick="agregarAlCarrito('Decoración ${i + 1}', 10000)">Agregar al carrito</button>
+    </div>`;
+  decoracion.appendChild(div);
+});
+
+const muebles = document.getElementById('muebles');
+const mueblesEjemplo = [
+  { nombre: "Mesa Rústica", precio: 95000, stock: 2 },
+  { nombre: "Silla de Madera", precio: 45000, stock: 3 }
 ];
 
-const muebles = [
-  { id: 6, nombre: "Mesa Rústica", precio: 120000, original: 150000, transferencia: 105000, cuotas: 20000, imagen: "https://via.placeholder.com/400x300" },
-  { id: 7, nombre: "Silla de Madera", precio: 30000, original: null, transferencia: 27000, cuotas: 5000, imagen: "https://via.placeholder.com/400x300" }
-];
+mueblesEjemplo.forEach(p => {
+  const div = document.createElement('div');
+  div.className = 'card';
+  div.innerHTML = `
+    <img src="https://via.placeholder.com/400x300" alt="${p.nombre}" />
+    <div class="info">
+      <div class="name">${p.nombre}</div>
+      <div class="price">Precio: $${p.precio.toLocaleString("es-CL")}</div>
+      <div class="stock">Stock: ${p.stock}</div>
+      <button onclick="agregarAlCarrito('${p.nombre}', ${p.precio})">Agregar al carrito</button>
+    </div>`;
+  muebles.appendChild(div);
+});
 
 let carrito = [];
 
-function renderProductos(productos, contenedorID) {
-  const contenedor = document.getElementById(contenedorID);
-  productos.forEach(p => {
-    const div = document.createElement('div');
-    div.className = 'product';
-    div.innerHTML = `
-      <img src="${p.imagen}" alt="${p.nombre}">
-      <div class="info">
-        <div class="name">${p.nombre}</div>
-        ${p.original ? <div class="original-price">$${p.original.toLocaleString('es-CL')}</div> : ''}
-        <div class="price">$${p.precio.toLocaleString('es-CL')}</div>
-        <div class="transfer">Transferencia: $${p.transferencia.toLocaleString('es-CL')}</div>
-        <div class="cuotas">6 cuotas de $${p.cuotas.toLocaleString('es-CL')}</div>
-      </div>
-      <button class="btn" onclick="agregarAlCarrito(${p.id})">Agregar al carrito</button>
-    `;
-    contenedor.appendChild(div);
-  });
-}
-
-const todos = [...decoracion, ...muebles];
-renderProductos(decoracion, 'decoracion');
-renderProductos(muebles, 'muebles');
-
-function agregarAlCarrito(id) {
-  const producto = todos.find(p => p.id === id);
-  const existente = carrito.find(p => p.id === id);
-  if (existente) {
-    existente.cantidad++;
+function agregarAlCarrito(nombre, precio) {
+  const existe = carrito.find(p => p.nombre === nombre);
+  if (existe) {
+    existe.cantidad++;
   } else {
-    carrito.push({ ...producto, cantidad: 1 });
+    carrito.push({ nombre, precio, cantidad: 1 });
   }
-  actualizarCantidad();
-}
-
-function actualizarCantidad() {
   document.getElementById('cantidad').textContent = carrito.reduce((s, p) => s + p.cantidad, 0);
 }
 
 function verCarrito() {
   const div = document.getElementById('carrito');
-  div.innerHTML = '';
+  div.innerHTML = '<h3>Carrito</h3>';
   let total = 0;
   carrito.forEach(p => {
-    const subtotal = p.precio * p.cantidad;
-    total += subtotal;
-    div.innerHTML += <p>${p.nombre} x${p.cantidad} - $${subtotal.toLocaleString('es-CL')}</p>;
+    total += p.precio * p.cantidad;
+    div.innerHTML += <p>${p.nombre} x${p.cantidad} - $${(p.precio * p.cantidad).toLocaleString("es-CL")}</p>;
   });
-  div.innerHTML += <hr><strong>Total: $${total.toLocaleString('es-CL')}</strong>;
+  div.innerHTML += <hr><strong>Total: $${total.toLocaleString("es-CL")}</strong>;
+  div.innerHTML += `
+    <div class="formulario-envio">
+      <h4>Datos de Envío (Starken)</h4>
+      <input type="text" placeholder="Nombre completo" required>
+      <input type="text" placeholder="Dirección" required>
+      <input type="text" placeholder="Ciudad" required>
+      <input type="text" placeholder="Teléfono" required>
+      <input type="text" placeholder="RUT" required>
+      <a href="https://mpago.la/2F6Wxpt" target="_blank"><button class="btn-pago">Pagar con MercadoPago</button></a>
+    </div>
+  `;
   div.style.display = 'block';
 }
 </script></body>
 </html>
-
 
 
     
